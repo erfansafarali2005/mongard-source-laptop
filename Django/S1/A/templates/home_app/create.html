@@ -1,0 +1,15 @@
+{% extends 'home_app/base.html' %}
+
+{% block title %} create object {% endblock title %}
+
+{% block content %}
+
+    <h3>create a todo</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit">
+    </form>
+
+{% endblock content %}
+

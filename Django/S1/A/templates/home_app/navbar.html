@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+
+        <a class="navbar-brand" href="{% url 'create' %}">Create todo</a>
+        <a class="navbar-brand" href="{% url 'register' %}">user register</a>
+        <a class="navbar-brand" href="{% url 'login' %}">user login</a>
+        <a class="navbar-brand" href="{% url 'logout' %}">logout</a>
+
+
+      </div>
+    </div>
+  </div>
+</nav>

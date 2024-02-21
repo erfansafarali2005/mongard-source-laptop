@@ -1,0 +1,19 @@
+{% extends 'home_app/base.html' %}
+
+{% block title  %} detail page {% endblock title %}
+
+
+{% block content %}
+
+
+
+    <a class="btn btn-danger" href="{%url 'delete' todo.id%}">Delete</a>
+    <a class="btn btn-info" href="{%url 'update' todo.id%}">Update</a>
+    <h3>{{todo.title}}</h3>
+    <small>{{todo.body}}</small>
+    <p>{{todo.id}}</p>
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "home_app/base.html" %}
+
+{%block title %} home app {% endblock title %}
+
+{% block content %}
+
+ <div class="card">
+    {% for todo in todos %}
+        {#!!!<a href="/detail/{{ todo.id }}">{{todo.title}}</a>!!!#}
+         <a class="card-body" href="{%url 'detail' todo.id%}">{{todo.title}}</a> {#now instead of adding url mannually we use url to resolve its name#}
+
+        <small>{{todo.body}}</small>
+    {% endfor %}
+ </div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends "home_app/base.html" %}
+
+{% block title %} hello app {% endlbock title %}
+
+{% block content %}
+    <h1> hello {{name}}</h1>
+
+    {# this is a comment that will not be shown into html view #}
+    {%if name == 'amir'%}
+        <h2>shenidam {{name}} ha konian</h2>
+    {%endif%}
+
+
+{% endblock content %}
