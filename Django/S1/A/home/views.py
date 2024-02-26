@@ -45,7 +45,7 @@ def create(request):
 
 
 def update(request , todo_id):
-    todo = Todo.obejcts.get(id = todo_id)
+    todo = Todo.objects.get(id = todo_id)
 
     if request.method == "POST":
         form = TodoUpdateForm(request.POST , instance = todo)
@@ -54,5 +54,5 @@ def update(request , todo_id):
             messages.add_message(request, messages.SUCCESS, 'successfully updated', 'success')
             return redirect('details' , todo_id)
     else:
-        form = TodoUpdateForm()
+        form = TodoUpdateForm(instance=todo)
     return render(request , 'home_app/update.html' , {'form' : form})
