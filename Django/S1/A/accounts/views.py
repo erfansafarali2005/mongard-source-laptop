@@ -22,7 +22,7 @@ def user_register(request):
 
 def user_login(request):
     if request.method =='POST':
-        form = UserLoginForm(request.POST)
+        form = UserLoginForm(request.POST) # with the data coming from POST
         if form.is_valid():
             cd = form.cleaned_data
             user = authenticate(request , username=cd['login_form_username'] , password=cd['login_form_password'])
@@ -32,7 +32,7 @@ def user_login(request):
             else:
                 messages.error(request , 'invalid credentials' , 'danger')
 
-    else:
+    else:#if request was get :
         form = UserLoginForm()
     return  render(request , 'account_app/login.html' , context={'form' : form})
 

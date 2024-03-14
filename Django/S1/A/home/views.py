@@ -48,11 +48,11 @@ def update(request , todo_id):
     todo = Todo.objects.get(id = todo_id)
 
     if request.method == "POST":
-        form = TodoUpdateForm(request.POST , instance = todo)
+        form = TodoUpdateForm(request.POST , instance = todo)#with the data coming from POST
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'successfully updated', 'success')
             return redirect('details' , todo_id)
-    else:
+    else: #if the request was get
         form = TodoUpdateForm(instance=todo)
     return render(request , 'home_app/update.html' , {'form' : form})
