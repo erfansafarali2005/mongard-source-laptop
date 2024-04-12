@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} 404 Error Page not found {% endblock title %}
+
+
+{% block content %}
+
+  <h1>Page Not Found</h1>
+  <h2>What are you looking for ?</h2>
+  <h3>Someone has stepped on the wire ...</h3>
+  <a href="{% url 'home:home' %}"><h4>Return to the home page</h4></a>
+
+{% endblock content %}

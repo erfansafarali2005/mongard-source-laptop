@@ -1,4 +1,4 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect , get_object_or_404 , get_list_or_404
 from django.views import View
 from .forms import UserRegisterationForm , UserLoginForm
 from django.contrib.auth.models import User
@@ -83,8 +83,10 @@ class UserLogoutView(LoginRequiredMixin,View): #when user enters the logout url 
 class UserProfileView(View):
     template_name = 'account/profile.html'
     def get(self , request , user_id):
-        user = User.objects.get(id = user_id) #pk = user_id   | for getting only one object
+        user = get_object_or_404(Post , id=user_id)
+        #user = User.objects.get(id = user_id) #pk = user_id   | for getting only one object
         posts = Post.objects.filter(user=user) #if it dosn't exist , it dosn't return error | for getting few objects
+        #   we dont use get_list_or_404 becasue if the user wouldn't have any posts , it shows him 404 , but we dont need taht
         #                           ^-> user field in the model
         return render (request , self.template_name , {"user" : user , "posts" : posts})
     def post(self):
