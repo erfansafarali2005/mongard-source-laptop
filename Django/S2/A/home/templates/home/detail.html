@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Detail page {% endblock title %}
+
+{% block content %}
+
+
+    {% if request.user.id == post.user.id %}
+        <a class="btn btn-danger" href="{% url 'home:post_delete' post.id %}">Delete</a>
+        <a class="btn btn-info" href="{% url 'home:post_update' post.id %}">Update</a>
+    {% endif %}
+
+    <a href="{% url 'account:user_profile' post.user.id %}"><p>{{post.user.username}} - {{post.updated | date:"Y-M-D"}}</p></a>
+    <p>{{post.user.email}}</p> {# email is a field of User model which is the Foreighkey of the post model #}
+    <p>{{post.body}}</p>
+
+{% endblock content %}

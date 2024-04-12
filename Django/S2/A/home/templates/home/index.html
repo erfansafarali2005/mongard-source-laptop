@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} home app {% endblock title %}
+
+{% block content %}
+
+
+
+    <div class="card">
+
+        {% for post in posts %}               {# here we dont need request.post_id because we already have the post here #}
+            {#<a href="{% url 'home:post_detail' post.id post.slug %}" class="card-body">{{post.body | truncatewords:8 }}</a>#} {# truncate words is the limit of the display #}
+            <a href="{{ post.get_absolute_url }}" class="card-body">{{post.body | truncatewords:8 }}</a>
+        {% endfor %}
+
+    </div>
+
+
+
+
+{% endblock content %}

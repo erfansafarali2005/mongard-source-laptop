@@ -1,0 +1,8 @@
+{% if messages %}
+
+    {% for msg in messages %}
+        <pc class="alert alert-{{ msg.tags }}">{{msg}}</pc>
+    {% endfor %}
+
+
+{% endif %}
