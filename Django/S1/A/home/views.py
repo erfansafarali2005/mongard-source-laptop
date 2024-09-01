@@ -13,7 +13,7 @@ def home(request):
     #return render (request , "home_app/hello.html" , context=person) #template/ -> is added in setting directory
                                                                 #   ^_> context is thing that will be sent into frontend
 
-def detail(request , todo_id):
+def detail(request , todo_id): #todo_id is sent into front in %url% from the todo object
     todo = Todo.objects.get(id=todo_id)
     return render(request , "home_app/detail.html" , context={'todo' :todo} )
     # in home template we type /detail/todo.id -> its wrong we use url_for instead
@@ -36,7 +36,7 @@ def create(request):
             messages.add_message(request , messages.SUCCESS , 'successfully created' , 'success')
             redirect('home')
         else:
-            messages.add_message(request , messages.SUCCESS , 'an error accured' , 'success')
+            messages.add_message(request , messages.error() , 'an error accured' , 'success')
 
     else: #if request was get means he visited the url:
         form = TodoCreateForm()
@@ -48,7 +48,7 @@ def update(request , todo_id):
     todo = Todo.objects.get(id = todo_id)
 
     if request.method == "POST":
-        form = TodoUpdateForm(request.POST , instance = todo)#with the data coming from POST
+        form = TodoUpdateForm(request.POST , instance = todo)#with the data coming from POST to be shown in the form 
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'successfully updated', 'success')
