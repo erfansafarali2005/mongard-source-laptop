@@ -15,13 +15,10 @@ def send_otp_code(phone_number , code):
     except APIException as e :
         print(f' API Exception error : {e}')
     except HTTPException as e :
-<<<<<<< HEAD:django/commerenc 3/A/utils.py
         print(f' HTTP Exception error : {e}')
-=======
         print(e)
 
 
 class IsAdminUserMixin(UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_admin
->>>>>>> f7f6a6c67a99825a940de41158dedc721c807b68:django/commerenc/A/utils.py
