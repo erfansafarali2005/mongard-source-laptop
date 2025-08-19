@@ -1,0 +1,53 @@
+# https://nginx.org/en/docs/dirindex.html
+# https://nginx.org/en/docs/ngx_core_module.html#worker_processes
+# https://nginx.org/en/docs/http/ngx_http_autoindex_module.html
+# https://nginx.org/en/docs/ngx_core_module.html#include
+
+
+worker_processes 6;
+user cuthber;
+error_log /var/log/nginx/error.log;
+
+http {
+
+    server {
+        
+        server_name localhost;
+        listen 80;
+        root /home/cuthbert/Desktop/nginx;
+        autoindex on;
+        # ^-> it will list the directories in the root directory like : https://www.yanxurui.cc/posts/server/2017-03-21-NGINX-as-a-file-server/autoindex.png
+        index NOT_EXISTENT_INDEX;
+        # ^-> if we have index.html , it will load it but now it dosn't and it load the autoindex instead
+
+
+    }
+
+    # !!! -> pages that are not in location directive , will be listed in the paths , pages with location directive won't get listen in autoindex; !!! its so dangorous becarfull 
+
+
+}
+
+
+http {
+
+    server {
+
+        server_name localhost;
+        listen 80;
+        root /home/cuthbert/Desktop/nginx;
+        include /etc/nginx/mime.types; 
+        # ^- > these are context types and imported here for the browser to know the context types of the files , every request must have a context type 
+        # ^-> if we don't include this , the browser will not know the context type of the file and it , in api we had application/json.
+        # ^-> if we are going to show png , its image/png content type
+        default_type text/plain;
+        # ^-> if the context type was not exists , it uses this content type
+
+
+
+    }
+
+
+}
+
+# >> nignx -s quit / stop / reload / reopen -> instead of using systemctl , we use these now .

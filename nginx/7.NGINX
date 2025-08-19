@@ -1,0 +1,27 @@
+worker_process 10;
+user cuthbert;
+log /var/log/nginx/error_log.lgo warn;
+
+http {
+    server  {
+        server_name 127.0.0.1;
+        listen 81;
+
+        location / {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-Ip $remote_addr;
+            proxy_set_header Accept-Encoding "";
+            proxy_pass http://127.0.0.2:81;
+        }
+    }
+
+    server {
+        server_name 127.0.0.2;
+        listen 81;
+        location / { 
+            root /home/cuthbert/Desktop/nginx;
+            index index.html;
+        } 
+        # location / means : 127.0.0.2: , location /accounts/ means : 127.0.0.2:accounts/
+    }
+}

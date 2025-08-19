@@ -1,0 +1,31 @@
+# cat /etc/nginx/nginx.conf -> the configuration files
+
+#    ^-> directive
+worker_proccess 1;
+error_log nginx_error.log;
+
+# ^-> context
+events {
+        # event is a must , even empty
+}
+# ^-> context
+http {
+    # ^-> context
+    server {
+        # ^-> directive
+        server_name localhost;
+        listen 81;
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }    
+    }
+
+}    
+
+# >> sudo systemctl start nginx.service -> starting the nginx
+# >> sudo systemctl enable nginx.service -> auto starting the nginx after resatart
+# >> sudo systemctl restart nginx.service -> restarting the nginx !! never restart the nginx !! do the reload
+# >> sudo systemctl reload nginx.service -> reloading the nginx
+
+# >> sudo /etc/init.d/apache2 stop -> if you have conflict with apache2

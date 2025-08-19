@@ -1,0 +1,30 @@
+# https://nginx.org/en/docs/http/ngx_http_core_module.html
+
+# >> sudo ngnix -t : nginx dosn't return your error logs if it stoped working , do this to see runtime errors
+
+# we can have few servers : 
+
+worker_proccess 1;
+error_log nginx_error.log;
+
+events {
+
+}
+
+http {
+    server {
+        server_name localhost;
+        listen 81;
+        return 200 'Hello World'
+    }
+    server {
+        server_name 127.0.0.2;
+        listen 81;
+        return 200 'Hellow world from second server'
+    }
+
+}  
+
+
+
+# our every context and directives are in main context

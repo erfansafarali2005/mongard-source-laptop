@@ -1,0 +1,59 @@
+worker_proccess 10;
+user cuthbert;
+# ^-> not forget to use user , 404.html is created by cuthber so we need a user that has permissions of that file
+error_log /var/log/nginx/error_log.log;
+
+events {
+
+}
+
+# when a we use error_log in a context that already has  a root in it , the error_page use that root's path
+
+http {
+    server {
+        server_name localhost;
+        listen 80;
+        root /home/cuthbert/Desktop/nginx;
+        index home.html;
+        error_page 404 404.html;
+        error_page 500 501 502 503 504 50x.html;
+        # ^-> its excpecting that 404.html or 50x.html are in the last root means /home/cuthbert/Desktop/nginx
+
+        location /docs/ {
+            root /home/cuthbert/Desktop/nginx/docs;
+            index docs.html;
+        }
+    }
+}
+
+# how we can use location for the eror_pages ? !!! in real-world we use locations : 
+
+http {
+    server {
+        server_name localhost;
+        listen 80;
+        root /home/Desktop/nginx/;
+        index home.html;
+
+        error_page 404 /404.html;
+        #               ^-> this means a lcoation of 404.html , but we don't have this location so we create it : 
+        error_page 500 501 502 503 504 /50x.html;
+
+        location /docs/ {
+            root /home/Desktop/nginx/docs;
+            index docs.html;
+        }
+        
+        location /404.html/ {
+            root /home/Desktop/nginx/errors;
+            # we don't need for index , do we ? 
+            internal;
+            # internal means : no one can access to this location despite internal and local requests : like when a user get 404 and the nginx (internal and local thing) redirects hime to this location
+        }
+
+        location /50x.html/ {
+            root /home/Desktop/nginx/errors;
+            internal;
+        }
+    }
+}

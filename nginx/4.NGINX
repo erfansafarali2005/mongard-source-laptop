@@ -1,0 +1,41 @@
+# https://nginx.org/en/docs/http/ngx_http_log_module.html#access_log
+# https://nginx.org/en/docs/ngx_core_module.html#error_log
+# https://nginx.org/en/docs/varindex.html
+# https://docs.nginx.com/nginx/admin-guide/monitoring/logging/
+
+# debug , info , notice , warn , error , crit , alert , emerg -> we care about warn to highher level , default its from error not warn
+
+# cat /var/log/nginx/mylog.log
+
+worker_proccess 1;
+error_log nginx_error.log warn; 
+#                           ^-> from warn to higher
+# access logs are not avialbe in main context , see docs for more details
+
+user cuthbert;
+
+events {
+
+}
+
+http {
+
+    log_format main '$remote_addr $remote_user $time_local $request
+    $status $body_bytes_sent $http_user_agent';
+
+    server {
+        server_name localhost;
+        listen 81;
+        root /home/amir/Desktop/blog/; 
+        index about.html; 
+
+        location /docs/ {
+            index docs.html;
+            error_log /var/log/nginx/error_docs.log warn;
+            access_log /var/log/nginx/accesss_docs.log main; 
+            #                                           ^-> main is the name of our variable of log_format
+        }
+    }
+}  
+
+# now after declearing the log_format now cat the log files in /var/log/nginx/access_docs.log to see the changes

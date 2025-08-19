@@ -1,0 +1,49 @@
+worker_proccesses 10;
+error_log /var/log/nginx/error_log.log warn;
+user cuthbert;
+
+events {
+	
+}
+
+http {
+
+	upstream mainupstream {
+		least_conn;
+		# ^-> to the server which has the least connection working on
+		# iphash
+		# generic_hash
+		# randome
+		server 127.0.0.1:80 fall_timeout= 30s max_fails=5 weight=2; 
+		#                     ^-> if 5 fails : try again in next 30 senconds
+		server 127.0.0.1:81 backup weight=3;
+		#                    ^-> this server only works when our servers are busy
+		server 127.0.0.1:82 down weight=4;
+		#                          ^-> thi server accepts 4 request maxiumum in his queue
+	}
+	
+	server {
+		server_name 127.0.0.1;
+		listen 83;
+		location / {
+			proxy_pass http://mainupstream;
+			# everyone comming to the main url : / , redirect them to the mainupstream , there we load balance the requests and send them to the
+			#apprpiate server
+		}
+	}
+	server{
+		server_name 127.0.0.1;
+		listen 80;
+		root /home/cuthbert/Desktop/nginx/one;
+	}
+	server{
+		server_name 127.0.0.1;
+		listen 81;
+		root /home/cuthbert/Desktop/nginx/two;
+	}
+	server {
+		server_name 127.0.0.1;
+		listen 82;
+		root /home/cuthbert/Desktop/nginx/three;
+	}
+}

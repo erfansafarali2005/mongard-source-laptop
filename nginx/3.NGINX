@@ -1,0 +1,32 @@
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#location
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#root
+
+# !! locations are : --/-- : main url , /accounts/ , /products/ , /docs/ : ok ?
+
+worker_proccess 1;
+error_log nginx_error.log;
+user cuthbert;
+
+events {
+
+}
+
+http {
+    server {
+        server_name localhost;
+        listen 81;
+        root /home/amir/Desktop/blog/; 
+        # ^-> we must declear a user , this directory is created by cuthbert user in linux and the default user in nignx is nobody 
+        index about.html; 
+        # ^-> /home/amir/Desktop/blog/index.html
+        # ^-> if we don't declear the index , it will search for index.html which we dont have
+        # ^-> 127.0.0.1/docs/doc.html is availbe without declearing the location but thats a directory path , location is like a django app 
+        location /docs/ {
+            index docs.html 
+            root /home/amir/Desktop/blog/docs
+            # ^-> these settings are overwriten from the parent server block
+            # -> now the 127.0.0.1/docs is a url not a directory
+        }
+    }
+}  
+
