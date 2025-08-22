@@ -1,14 +1,20 @@
 # https://nginx.org/en/docs/ngx_core_module.html#worker_connections
+# https://nginx.org/en/docs/ngx_core_module.html#accept_mutex
+# https://nginx.org/en/docs/ngx_core_module.html#multi_accept
+# https://nginx.org/en/docs/ngx_core_module.html#daemon
+# https://nginx.org/en/docs/ngx_core_module.html#worker_rlimit_nofile
 
 worker_processes 10;
 user cuthbert;
 error_log /var/log/nginx/error_log.log;
+daemon on;
+worker_rlimit_nofile 2048;
+    # ^-> how many file can a worker accepts
+
 events {
     worker_connections 1024;
-    accept_mutext off;
+    accept_mutex off;
     multi_accept off;
-    deamon on;
-    worker_rlimit_nofile 2048;
 }
 
 http {

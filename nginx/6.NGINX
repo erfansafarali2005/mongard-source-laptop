@@ -17,7 +17,7 @@ http {
         root /home/cuthbert/Desktop/nginx;
         autoindex on;
         # ^-> it will list the directories in the root directory like : https://www.yanxurui.cc/posts/server/2017-03-21-NGINX-as-a-file-server/autoindex.png
-        index NOT_EXISTENT_INDEX;
+        index NO_EXISTENT_INDEX;
         # ^-> if we have index.html , it will load it but now it dosn't and it load the autoindex instead
 
 

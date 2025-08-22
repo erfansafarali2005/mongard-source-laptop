@@ -21,6 +21,8 @@ http {
         }    
     }
 
+# !!! two ip cannot be assinged to a port : 127.0.01:81 , 127.0.0.2:81
+
 }    
 
 # >> sudo systemctl start nginx.service -> starting the nginx

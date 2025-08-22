@@ -57,3 +57,38 @@ http {
         }
     }
 }
+
+
+# if you want to use error_page in proxy_pass : 
+
+    upstream main_up {
+        least_conn;
+        server 127.0.0.2:82 fail_timeout=5s max_fails=5 weight=5; 
+    }
+
+
+
+    server {
+        server_name 127.0.0.1;
+        listen 81;
+        
+        error_page 404 /404.html;
+        error_page 500 501 502 503 504 /50x.html;
+
+        location / {
+            proxy_pass http://main_up;
+            proxy_intercept_errors on;
+            # ^-> this tells nginx to pass the errors from upstream to here to handle them
+        }
+    
+        location /404.html {
+            root /home/cuthbert-acer/Desktop/nginx;
+            internal;
+        }
+
+        location /50x.html {
+            root /home/cuthbert-acer/Desktop/nginx;
+            internal;
+        }
+
+    }
