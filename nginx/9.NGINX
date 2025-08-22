@@ -1,0 +1,39 @@
+# https://nginx.org/en/docs/http/ngx_http_limit_conn_module.html
+# https://nginx.org/en/docs/http/ngx_http_limit_req_module.html
+
+
+worker_processes 10;
+user cuthbert;
+error_log /var/logs/nginx/nginx.conf warn;
+
+events {
+
+}
+
+http {
+
+    limit_conn_zone $binary_remote_addr zone=addr:2m;
+    limit_req_zone $binary_remote_addr zone=addr2:2m rate=3r/s;
+    limit_request_status 429;
+
+    server {
+        server_name 127.0.0.1;
+        listen 81;
+        root /home/cuthbert/Desktop/nginx;
+
+        limit_conn addr 1;
+        limit_req zone=addr2 burst=5 delay=2;
+        #                             ^-> nodelay : no delay ! (:
+        limit_rate_after 10m;   
+        limit_rate 1m;
+        # after 10mg of data usage of user , take it to 1mg limit
+        
+        
+        
+        
+        }
+
+
+
+
+}

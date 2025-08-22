@@ -1,4 +1,4 @@
-worker_proccess 10;
+worker_processes 10;
 user cuthbert;
 # ^-> not forget to use user , 404.html is created by cuthber so we need a user that has permissions of that file
 error_log /var/log/nginx/error_log.log;

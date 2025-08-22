@@ -1,0 +1,47 @@
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#keepalive_timeout
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#keepalive_requests
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#keepalive_disable
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#send_timeout
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_timeout
+# https://nginx.org/en/docs/http/ngx_http_core_module.html#client_header_timeout
+
+worker_processes 10;
+user cuthbert;
+events {
+
+}
+
+http {
+
+    keepalive_timeout 18s;
+    # ^-> timeout for connection
+    keepalive_requests 20;
+    # ^-> timeout for request
+    keepalive_disable msie6 safari;
+    # ^-> disabeling timeout for specefic browsers
+    send_timeout 50s;
+    # ^-> timeout for write request
+    client_body_timeout 30s;
+    # ^-> timeout for read request
+    client_header_timeout 10;
+    # ^-> will rerurn 408 if executed
+
+
+    upstream backends {
+        server 127.0.0.1:02;
+    }
+    server {
+        server_name 127.0.0.1;
+        listen 81;
+
+        location / {
+            proxy_pass http://backends;
+        }
+    }
+
+    server {
+        server_name 127.0.0.1;
+        listen 82;
+        root /home/cuthbert/nginx/one;
+    }
+}

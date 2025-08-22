@@ -1,0 +1,39 @@
+# overal : https://nginx.org/en/docs/http/ngx_http_gzip_module.html
+# https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip
+# https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_comp_level
+
+
+# always use gzip on your reversed_proxy . its availbe in Accept-Encoding:gzip; 
+
+worker_processes 10;
+user cuthbert;
+events {
+
+}
+
+http {
+    gzip on;
+    gzip_min_length 100kb;
+    gzip_comp_level 4;
+    gzip_disable "msie6";
+    gzip_types text/plain text/css text/javascript;
+    #                 ^-> text/html will always be compressed
+
+    upstream backends {
+        server 127.0.0.1:02;
+    }
+    server {
+        server_name 127.0.0.1;
+        listen 81;
+
+        location / {
+            proxy_pass http://backends;
+        }
+    }
+
+    server {
+        server_name 127.0.0.1;
+        listen 82;
+        root /home/cuthbert/nginx/one;
+    }
+}

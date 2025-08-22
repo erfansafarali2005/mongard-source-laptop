@@ -1,0 +1,14 @@
+# https://nginx.org/en/docs/mail/ngx_mail_proxy_module.html#proxy_buffer
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size
+# https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_buffer_size
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering
+
+
+
+# Do not turn off the buffering
+
+# what is buffering : some connections are fast and some slow . when a connection is slow for example : he needs to download 100MG file 
+# server needs to wait for him to download it , this is when buffering comes , server pass the file to the nginx and ngnix cut the connection and threads of the server
+# then the user connects to the nginx to download the file and server is not busy then.
+
+# !!! if buffer is turned off : the limits and caches will face problems

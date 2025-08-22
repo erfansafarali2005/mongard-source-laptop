@@ -1,0 +1,27 @@
+# https://nginx.org/en/docs/ngx_core_module.html#worker_connections
+
+worker_processes 10;
+user cuthbert;
+error_log /var/log/nginx/error_log.log;
+events {
+    worker_connections 1024;
+    accept_mutext off;
+    multi_accept off;
+    deamon on;
+    worker_rlimit_nofile 2048;
+}
+
+http {
+    server {
+        server_name localhost;
+        listen 81;
+        index /home/cuthbert/Desktop/nginx;
+
+        location / {
+            limit_except POST {
+                deny all;
+                # only accept post , deny all anyother requests
+            }
+        }
+    }
+}

@@ -1,0 +1,70 @@
+# https://nginx.org/en/docs/http/ngx_http_rewrite_module.html
+
+worker_processes 10;
+user cuthbert;
+error_log /var/log/nginx/error_log.log warn;
+
+events {
+
+}
+
+http {
+    server {
+        server_name localhost;
+        listen 81;
+
+        location / {
+            if (%request_method = POST) {
+                return 405 'method not allowed';
+            }
+
+            return 200 'hello';
+            # ^-> else :
+        }   
+    }
+
+    server {
+        server_name 127.0.0.2;
+        listen 81;
+
+        location / {
+            # return 200 https://wwww.mgfest.ir;
+            # ^-> it wont redirect and only shows the text of the url . the codes of redirect are 301 or 302;
+            return 301 https://www.mgfest.ir;
+        }
+
+        locatiom /tst {
+            return 301 /one;
+        }
+
+        location /one {
+            root /home/cuthbert/Desktop/nginx/one;
+        }
+    }
+
+    server {
+        server_name 127.0.0.3;
+        listen 81;
+
+        rewrite ^/first$ /one;
+        #       ^-> if user calls the first send him to one | $ means without anyother alphabet event / : /one is ok /one/ is not correct
+
+        location /first {
+            rewrite ^/first/(.*)$ /one/$1;
+                            # ^-> everythign can be | first arg = $1 , second args = $2
+
+            # what will happene ? the argument after one can be anyhting , we have dirs one two three , if /first/one/(two) it will goes there
+        }
+        location /one {
+            root /home/cuthbert/Desktop/nginx;
+        }
+    }
+
+    server {
+        server_name 127.0.0.3;
+        listen 81;
+        return 301 $scheme://www.mydomain.com$request_uri;
+        # ^-> if you do this in your main server it will always redirect the non www requests to the www one can be vise a versa :
+        # return 301 $scheme:mydomain.com$request_uri
+    }
+}

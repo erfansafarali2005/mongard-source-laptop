@@ -1,0 +1,22 @@
+# https://nginx.org/en/docs/http/ngx_http_access_module.html#allow
+# https://nginx.org/en/docs/http/ngx_http_access_module.html#deny
+
+worker_processes 10;
+user cuthbert;
+error_log /var/log/nginx/error_log.log;
+events {
+
+}
+
+http {
+    server {
+        server_name localhost;
+        listen 81;
+
+        location / {
+            deny 192.168.1.20;
+            allow all;
+            return 200 'your ip : $remote_addr';
+        }
+    }
+}

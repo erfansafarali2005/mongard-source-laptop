@@ -7,7 +7,7 @@
 
 # cat /var/log/nginx/mylog.log
 
-worker_proccess 1;
+worker_processes 1;
 error_log nginx_error.log warn; 
 #                           ^-> from warn to higher
 # access logs are not avialbe in main context , see docs for more details

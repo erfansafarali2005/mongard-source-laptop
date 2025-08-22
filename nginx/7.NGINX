@@ -1,4 +1,7 @@
-worker_process 10;
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header
+
+worker_processes 10;
 user cuthbert;
 log /var/log/nginx/error_log.lgo warn;
 

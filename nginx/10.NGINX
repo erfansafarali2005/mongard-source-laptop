@@ -1,0 +1,31 @@
+# https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html
+
+worker_processes 10;
+user cuthbert;
+error_log /var/logs/nginx/nginx.conf warn;
+
+events {
+
+}
+
+http {
+
+    server {
+        server_name localhost;
+        listen80;
+        root /home/cuthbert/nginx;
+        
+        location / {
+            auth_basic "Home Auth System";
+            auth_basic_user_file /etc/nginx/conf.d/passwd;
+            # ^-> now in browser it asks for username and password
+        }
+
+
+
+    }
+}
+
+# >> touch /etc/nginx/conf.d/psswd
+# >> nano in it : amir:iogesieigngeinei83998
+# >> openssl psswd (a function not our file) hellothisismypassword : it gives you the openssl password

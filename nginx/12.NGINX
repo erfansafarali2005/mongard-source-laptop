@@ -1,0 +1,60 @@
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_bypass
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_lock
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_use_stale
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid   
+# https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_key
+
+
+worker_processes 10;
+user cuthbert;
+error_log /var/log/nginx/error_log.log warn;
+
+events {
+
+}
+
+
+http {
+
+    proxy_cache_pass /home/cuthbert/Desktop/nginx/cache levels=1:2 keys_zone=mycache:10m inactive=3h max_size=20g;
+    # ^-> its only avabile in http ,                                             ^-> max size of meta    ^-> max size of a cache
+
+    upstream backends {
+        least_conn;
+        server 127.0.0.1:82 max_fails=5 fall_timeout=30s weight=5;
+    }
+
+
+    server {
+        server_name 127.0.0.1;
+        listen 81;
+
+        location / {
+            proxy_pass http://backends;
+            proxy_cache mycache;
+            proxy_cache_valid 200 404 1m;
+            proxy_cache_valid any 20m;
+            #                  ^-> dont use any in dynamic sites
+            # !!! -> this cache time is for : when this time passes the cache is then stale ( means old cahce ) but not deleted from disks . but inactive will delete caches from disk 
+            add_header X-Prxoxy_Cache $upstream_cache_status;
+            #                               ^-> miss : no cache ( first time coming ) , Hit : success cache , Bypass : cache was ok but we use server , Expired , stale : you know !
+            proxy_cache_key "$hostrequesturi $cookie_user"
+            #                           ^-> this prevent showing other caches to others , it set cookie for everyone of the users
+            proxy_cache_bypass $http_cache_bypass;
+            # ^-> a header must come
+            proxy_cache_bypass $arg_should_bypass_cache;
+            # ^-> an arg must come : https://localhost?should_bypass_cache:true;
+            proxy_cache_use_stale timeout http_500 http_503;
+            proxy_connect_timeout 30s;
+            proxy_cache_lock on;
+            # ^-> causes the cache to only accept one request and prevent overloading it
+        }
+    }
+
+    server {
+        server_name 127.0.0.1;
+        listen 82;
+        root /home/cuthbert/Desktop/nginx/one;
+    }
+}
