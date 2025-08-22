@@ -1,0 +1,15 @@
+>> rabbitmq-plugins list
+
+>> on the left, in the brackets , when its filled with E* : what user active , e* : what was dependencie
+
+>> rabbitmq-plugins enable rabbitmq-management : a UI management admin panel
+
+>> rabbitmq-plugins list -E Or -e
+
+>> rabbitmq-plugins list -m : only the names
+
+>> rabbitmq-plugins list -v : everything !
+
+>> rabbitmq-plugins directories : the directory path of the plugins
+
+>> https://localhost:15772/api/ : the docs , remove the api part to go to the panel and the user and pass is guest

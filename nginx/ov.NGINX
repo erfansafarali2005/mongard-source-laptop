@@ -1,0 +1,1 @@
+# we dont need to assign a global 404 , we dont need 10 servers so we configue 10 html files . django project has only 1 server for connecting to the gunicorn

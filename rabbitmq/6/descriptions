@@ -1,0 +1,17 @@
+ in every rabbitmq instance we have at leat a vhost . with vhost we set few clusters in a rabbitmq instance , one for django one for celery etc.
+ the default rabbitmqs cluster's name is / .
+
+ guest is only avaible in development server
+
+ how to manage rabbitmq nodes : rabbitmqctl (((((((((((((:.
+
+ >> rabbitmqctl add_user 'username' : this can be done with admin UI in management plugin
+
+ >> rabbitmqctl list_user : for getting the list of the users
+
+ >> now we set tags : >> rabbitmqctl set_user_tags amir administrator | !!!!! this tags are only for admin panel not inside code , for code :
+
+ >> now we should set permissions : >> rabbitmqctl set_permissions -p '/' 'amir' ".*" ".*" ".*" : first for configes , second for write and third for read :.* means True
+                                                                       ^-> name of the vhost : so thats why we have different vhosts which are different from each other
+
+ >> rabbitmqctl delete -user 'username'
