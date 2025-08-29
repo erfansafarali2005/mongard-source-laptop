@@ -1,0 +1,17 @@
+round robin : it sends requests randomly between servers . one to first server , one to second server , one to first server ....
+
+!! -> but it will send requests as soon as possible . maybe some servers are busy and some are not !
+
+
+acknowledg : a signal that reciever sends to sender taht says : i recieved the message . | and rabbitmq will remove that message from the queue
+
+
+-> try to send messages while consumer is turned of : >>sudo rabbitmqctl list_queues : in your queue you have messages left and after turning on the reciever the queue is empty again
+
+!!! : we will never send ack auomatically . why : when a message is recived by reciever , it will send ack signal immidietly . ->
+imagin a taks that taks 30 seconds . the task is being proccessed by the ack signal is send ! what wil hapend ? 
+
+!!!!!!!!!!!!! The biggest and most clear example of rabbitmq queues : payment , user went for payemnt an then he will go into the payment qeueue and reciver wait for the payment status code  !!!!!!!!
+
+<Basic.Deliver(['consumer_tag=ctag1.34eee6fa5065454d9a78b9fe1fe8e9c7', 'delivery_tag=19', 'exchange=', 'redelivered=False', 'routing_key=one'])>
+                                                                                                                  ^-> means is this tag returned to the queue after false status or etc ?

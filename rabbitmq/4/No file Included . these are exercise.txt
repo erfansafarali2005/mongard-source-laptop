@@ -12,4 +12,4 @@
 
 >> rabbitmq-plugins directories : the directory path of the plugins
 
->> https://localhost:15772/api/ : the docs , remove the api part to go to the panel and the user and pass is guest
+>> http://localhost:15672/api : the docs , remove the api part to go to the panel and the user and pass is guest

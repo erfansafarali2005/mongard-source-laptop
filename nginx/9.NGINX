@@ -21,7 +21,7 @@ http {
         listen 81;
         root /home/cuthbert/Desktop/nginx;
 
-        limit_conn addr 1;
+        limit_conn addr;
         limit_req zone=addr2 burst=5 delay=2;
         #                             ^-> nodelay : no delay ! (:
         limit_rate_after 10m;   

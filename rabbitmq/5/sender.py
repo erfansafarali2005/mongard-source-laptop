@@ -1,13 +1,13 @@
 import pika
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+credentials = pika.PlainCredentials(username='amir' , password='amir')
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost' , credentials=credentials))
 
 channel = connection.channel()
 
-queue = channel.queue_declare(queue='one')
+channel.queue_declare(queue='one')
 
-channel.basic_publish(exchange='' , routing_key='one' , body='Hello i sent you message')
-
-print('message sent ...')
+channel.basic_publish(exchange='' , routing_key='one' , body='Hi from a randome sender in one queue')
 
 channel.close()

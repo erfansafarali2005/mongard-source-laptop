@@ -13,6 +13,22 @@ http {
 
     log_format main_log_format '$remote_addr $remote_user $time_local $request $status $body_bytes_sent $http_user_agent';
 
+    limit_conn_zone $binary_remote_addr zone:conn_zone:10m;
+    limit_req_zone $binary_remote_addr zone:req_zone:10m;
+
+    gzip on;
+    gzip_min_length 124kb;
+    gzip_comp_level 3;
+    gzip_disable 'msie6';
+    gzip_types text/plain text/css text/javascript;
+    # ^-> the text/html is applied by default
+
+    keepalive_timeout 18s;
+    keepalive_requests 20;
+    send_timeout 30s;
+    client_body_timeout 50s;
+    client_header_timeout 10s;
+
     upstream main_up {
         least_conn;
         server 127.0.0.2:82 fail_timeout=5s max_fails=5 weight=5; 
@@ -30,6 +46,9 @@ http {
         location / {
             proxy_pass http://main_up;
             proxy_intercept_errors on;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header Accept_Encoding '';
         }
     
         location /404.html {
@@ -50,6 +69,8 @@ http {
         root /home/cuthbert-acer/Desktop/nginx;
         index index.html;
 
+        limit_conn conn_zone;
+        limit_req zone=req_zone , burst=5 delay=2;
 
 
         error_log /var/log/nginx/error.log;
@@ -63,5 +84,47 @@ http {
         root /home/cuthbert-acer/Desktop/nginx;
         autoindex on;
         index NO_EXISTENT_INDEX;
+    }
+
+    server {
+        server_name 127.0.0.4;
+        listen 84;
+        root /home/cuthbert-acer/Desktop/nginx;
+        index login.html;
+
+        location / {
+            auth_basic 'Admin Page';
+            auth_basic_user_file /etc/nginx/conf.d/psswd;
+            allow 192.168.1.2;
+            deny all;
+        }
+    }
+
+    server {
+        server_name 127.0.0.5;
+        listen 85;
+
+        location / {
+            (if request_method = POST) {
+                return 405 'method not allowed'
+            }
+            return 200 'Get method recieved'
+        }
+
+        location /redirect {
+            return 301 https://www.google.com;
+        }
+        location /redirect-to {
+            return 301 /destination;
+        }
+        location /destination {
+            root /home/acer-cuthbert/Desktop/nginx;
+            index index.html;
+        }
+    }
+    server {
+        server mydomain.com;
+        listen 86;
+        return 301 $scheme://www.mydomain.com$request_uri;
     }
 }

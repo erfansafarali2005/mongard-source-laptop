@@ -7,7 +7,7 @@
 
  >> rabbitmqctl add_user 'username' : this can be done with admin UI in management plugin
 
- >> rabbitmqctl list_user : for getting the list of the users
+ >> rabbitmqctl list_users : for getting the list of the users
 
  >> now we set tags : >> rabbitmqctl set_user_tags amir administrator | !!!!! this tags are only for admin panel not inside code , for code :
 
