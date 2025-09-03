@@ -1,0 +1,8 @@
+https://docs.python.org/3/library/threading.html#thread-objects
+
+we have 2 ways to use : 
+
+1- create an object of a thread and run it 
+
+2- create a subclass of a thread object and overwite its run
+

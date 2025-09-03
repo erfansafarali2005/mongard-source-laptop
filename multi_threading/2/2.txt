@@ -1,0 +1,53 @@
+
+a car is a processs and : wheel gearbox engine are threads which a thread has also some tasks inside . a firefox is tread and 4 tabs playing videos are tasks
+
+we have synchronous and asynchronous programming , 
+
+1- synchronous : tasks are being executed one by one after eachother (thread wait for task to be completed then anotherone)
+
+2- asynchronous : few tasks (threads) will be executed togheter , !! cpu won't wait for a task to be completed !!
+
+----------------
+
+1-concurent : the thread switches between tasks ( os decides)
+
+2-sequential : task are being executed after each other ( one task per time )
+
+3-paralell : tasks are being executed parrelely ( multi proccessing )
+
+-----------------
+
+tasks : 
+
+1- I/O bound : most of the times , tasks are wating for a response 
+
+2- CPU bound : most of the times , tasks are wating for cpu to complete the task processes
+
+-----------------
+
+multi threading : in I/O bound when we are wating the response to come back , we start a new task while waiting , we won't wait for response
+
+AsynceIO : just like multi threading but we only have a thread with multiple tasks , one thread with 3 taskas but multi thread 3 threads with one task
+
+
+in asynceio we switch between tasks not threads . 
+
+asynceio is hard but threading is easy to learn
+
+in asynceio programmer must think where we need asyncechornous but in multi threading , os decides 
+
+
+
+------------------
+
+multi processing : multiple cores , multiple threads , os decideds for swithching : movie converting or video processing
+
+multi threading : one core , multiple threads , everythread one task , os decides foor switching : fast i/o bound tasks : query on local data base like redis catch
+
+asynce io : one core , one thread , multiple tasksk , programmer decides when to swtich , for slow i/o bound tasks : API request , telegram bot , instagram bot , file downloading or uploading 
+
+
+!!! HTTP requests are fast(under 500 miliseconds ping) but file downloading or uploading or bots are slow !!!
+
+
+------------------
