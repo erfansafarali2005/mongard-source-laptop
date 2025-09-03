@@ -46,6 +46,7 @@ http {
         location / {
             proxy_pass http://main_up;
             proxy_intercept_errors on;
+            # ^-> we tell nginx to let http errors comes to here ( even with proxy_pass ) so we can manage it here
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header Accept_Encoding '';
